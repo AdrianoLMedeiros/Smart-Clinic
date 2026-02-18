@@ -1,0 +1,10 @@
+{
+	"user": {
+		"_id": "6995eaf656992a606b55b1a4",
+		"name": "Adriano",
+		"email": "adriano@clinic.com",
+		"role": "PATIENT",
+		"createdAt": "2026-02-18T16:38:14.621Z",
+		"updatedAt": "2026-02-18T16:38:14.621Z"
+	}
+}
