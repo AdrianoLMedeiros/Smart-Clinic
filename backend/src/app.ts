@@ -3,11 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDb } from "./config/db";
 import { router } from "./routes/index";
+import { createApp } from "./appFactory";
 
 dotenv.config();
 
-export const app = express();
-
+export const app = createApp();
+  
 app.use(cors());
 app.use(express.json());
 
