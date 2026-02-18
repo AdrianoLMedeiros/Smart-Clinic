@@ -1,0 +1,9 @@
+{
+	"user": {
+		"id": "6996220c2ec63f4b6c0a54c4",
+		"name": "SmartClinic Admin",
+		"email": "admin@clinic.com",
+		"role": "ADMIN"
+	},
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NzE0NDY5MDIsImV4cCI6MTc3MTUzMzMwMiwic3ViIjoiNjk5NjIyMGMyZWM2M2Y0YjZjMGE1NGM0In0.egElnDToCWy7SnyQdNrEZQqf3UD3uneNWbGaFw5TAMQ"
+}

@@ -1,0 +1,72 @@
+{
+	"appointments": [
+		{
+			"_id": "6995ee25493805c909379e25",
+			"patientId": {
+				"_id": "6995eaf656992a606b55b1a4",
+				"name": "Adriano",
+				"email": "adriano@clinic.com"
+			},
+			"date": "2026-02-20",
+			"time": "10:00",
+			"status": "PENDING",
+			"rainAlert": false,
+			"createdAt": "2026-02-18T16:51:49.788Z",
+			"updatedAt": "2026-02-18T16:51:49.788Z",
+			"__v": 0
+		},
+		{
+			"_id": "6995fd1af3117b44d525b81b",
+			"patientId": {
+				"_id": "6995eaf656992a606b55b1a4",
+				"name": "Adriano",
+				"email": "adriano@clinic.com"
+			},
+			"date": "2026-02-20",
+			"time": "11:00",
+			"status": "PENDING",
+			"rainAlert": false,
+			"createdAt": "2026-02-18T17:55:38.677Z",
+			"updatedAt": "2026-02-18T17:55:38.677Z",
+			"__v": 0
+		},
+		{
+			"_id": "6995fd5a7c6a433fbd3b4d92",
+			"patientId": {
+				"_id": "6995eaf656992a606b55b1a4",
+				"name": "Adriano",
+				"email": "adriano@clinic.com"
+			},
+			"date": "2026-02-20",
+			"time": "12:00",
+			"status": "PENDING",
+			"rainAlert": false,
+			"createdAt": "2026-02-18T17:56:42.029Z",
+			"updatedAt": "2026-02-18T17:56:42.029Z",
+			"__v": 0
+		},
+		{
+			"_id": "6995fdc57c6a433fbd3b4d95",
+			"patientId": {
+				"_id": "6995f5ad2b144d19b9dbafc8",
+				"name": "Adriano Com CEP",
+				"email": "adriano.cepnovo@clinic.com",
+				"cep": "22745-004",
+				"address": {
+					"street": "Estrada dos Três Rios",
+					"neighborhood": "Freguesia (Jacarepaguá)",
+					"city": "Rio de Janeiro",
+					"state": "RJ"
+				}
+			},
+			"date": "2026-02-20",
+			"time": "13:00",
+			"status": "PENDING",
+			"rainAlert": true,
+			"weatherSummary": "Rain chance: 25% | Expected precipitation: 0.2 mm",
+			"createdAt": "2026-02-18T17:58:29.798Z",
+			"updatedAt": "2026-02-18T17:58:29.798Z",
+			"__v": 0
+		}
+	]
+}

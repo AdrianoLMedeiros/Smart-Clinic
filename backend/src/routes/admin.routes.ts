@@ -1,6 +1,11 @@
 import { Router } from "express";
+import { requireAuth } from "../middlewares/requireAuth";
+import { requireAdmin } from "../middlewares/requireAdmin";
+import { listAll, changeStatus } from "../controllers/admin.controller";
+
 export const adminRoutes = Router();
 
-// TODO Sprint 4
-adminRoutes.get("/appointments", (_req, res) => res.status(501).json({ message: "Not implemented" }));
-adminRoutes.patch("/appointments/:id/status", (_req, res) => res.status(501).json({ message: "Not implemented" }));
+adminRoutes.use(requireAuth, requireAdmin);
+
+adminRoutes.get("/appointments", listAll);
+adminRoutes.patch("/appointments/:id/status", changeStatus);
