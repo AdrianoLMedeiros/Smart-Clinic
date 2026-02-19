@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../utils/jwt";
 
 export type AuthenticatedRequest = Request & {
-  auth?: { userId: string; role: "PATIENT" | "ADMIN" };
+auth?: { userId: string; role: "PATIENT" | "SECRETARY" | "ADMIN" };
 };
 
 export function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {

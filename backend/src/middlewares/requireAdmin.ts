@@ -1,12 +1,14 @@
-import { Response, NextFunction } from "express";
-import { AuthenticatedRequest } from "./requireAuth";
+// DEPRECATED: This file is no longer used. Please use requireRole(["ADMIN"]) instead of requireAdmin.
 
-export function requireAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  if (!req.auth) return res.status(401).json({ message: "Unauthorized" });
+// import { Response, NextFunction } from "express";
+// import { AuthenticatedRequest } from "./requireAuth";
 
-  if (req.auth.role !== "ADMIN") {
-    return res.status(403).json({ message: "Forbidden: ADMIN only" });
-  }
+// export function requireAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+//   if (!req.auth) return res.status(401).json({ message: "Unauthorized" });
 
-  return next();
-}
+//   if (req.auth.role !== "ADMIN") {
+//     return res.status(403).json({ message: "Forbidden: ADMIN only" });
+//   }
+
+//   return next();
+// }

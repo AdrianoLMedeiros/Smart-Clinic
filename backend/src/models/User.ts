@@ -1,6 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 
-export type UserRole = "PATIENT" | "ADMIN";
+export type UserRole = "PATIENT" | "SECRETARY" | "ADMIN";
 
 export interface IUser extends Document {
   name: string;
@@ -33,7 +33,7 @@ const UserSchema = new Schema<IUser>(
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, trim: true, lowercase: true },
     passwordHash: { type: String, required: true },
-    role: { type: String, enum: ["PATIENT", "ADMIN"], default: "PATIENT" },
+    role: { type: String, enum: ["PATIENT", "SECRETARY", "ADMIN"], default: "PATIENT" },
     cep: { type: String },
     address: { type: AddressSchema },
   },
