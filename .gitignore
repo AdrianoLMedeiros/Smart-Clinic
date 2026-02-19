@@ -2,4 +2,6 @@
 .env.example
 .env.test
 db.md
-\insomnia_results\*
+SmartClinic.mongodb.js
+\insomnia_results
+\node_modules
