@@ -4,12 +4,14 @@ import { useRouter } from "vue-router";
 import { register } from "@/services/auth";
 import { lookupCep } from "@/services/integrations";
 
+
 type CepAddress = {
   cep?: string;
-  logradouro?: string;
-  bairro?: string;
-  localidade?: string;
-  uf?: string;
+  street?: string;
+  district?: string;
+  city?: string;
+  state?: string;
+  complement?: string;
 };
 
 const router = useRouter();
@@ -175,9 +177,9 @@ async function handleRegister() {
         <p v-else-if="cepError" class="error">{{ cepError }}</p>
         <P> VERIFICAR PORQUE CARGA DOS DADOS DO ENDEREÇO DO CEP DIGITADO NÂO ESTÁ OCORRENDO</P>
         <div v-if="address" class="address-box">
-          <p><strong>Street:</strong> {{ address.logradouro || "-" }}</p>
-          <p><strong>District:</strong> {{ address.bairro || "-" }}</p>
-          <p><strong>City/State:</strong> {{ address.localidade || "-" }} / {{ address.uf || "-" }}</p>
+          <p><strong>Street:</strong> {{ address.street || "-" }}</p>
+          <p><strong>District:</strong> {{ address.district || "-" }}</p>
+          <p><strong>City/State:</strong> {{ address.city || "-" }} / {{ address.state || "-" }}</p>
         </div>
       </div>
 
