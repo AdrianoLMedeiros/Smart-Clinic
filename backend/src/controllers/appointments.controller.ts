@@ -2,21 +2,40 @@ import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../middlewares/requireAuth";
 import { availableSchema, createAppointmentSchema } from "../validators/appointments.validators";
 import { createAppointment, getAvailableSlots, listMyAppointments } from "../services/appointments.service";
+import { isWeekendISO } from "../utils/dateRules";
 
 export async function available(req: Request, res: Response) {
   const parsed = availableSchema.safeParse(req.query);
   if (!parsed.success) {
-    return res.status(400).json({ message: "Validation error", errors: parsed.error.flatten() });
+    return res.status(400).json({
+      message: "Validation error",
+      errors: parsed.error.flatten(),
+    });
   }
 
-  const slots = await getAvailableSlots(parsed.data.date);
-  return res.json({ date: parsed.data.date, slots });
+  const { date } = parsed.data;
+  // BLOQUEIO DEFINITIVO DE FIM DE SEMANA
+  if (isWeekendISO(date)) {
+    return res
+      .status(400)
+      .json({ message: "Appointments are not available on weekends." });
+  }
+
+  const slots = await getAvailableSlots(date);
+  return res.json({ date, slots });
 }
 
 export async function create(req: AuthenticatedRequest, res: Response) {
   const parsed = createAppointmentSchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(400).json({ message: "Validation error", errors: parsed.error.flatten() });
+  }
+
+  // BLOQUEIO DEFINITIVO DE FIM DE SEMANA
+  if (isWeekendISO(parsed.data.date)) {
+    return res
+      .status(400)
+      .json({ message: "Appointments cannot be scheduled on weekends." });
   }
 
   const userId = req.auth?.userId;
