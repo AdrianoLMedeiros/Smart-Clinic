@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
 const router = useRouter();
+const route = useRoute();
 const auth = useAuthStore();
+
+const isAdminish = computed(() => auth.isAdminish); // SECRETARY/ADMIN
+
+function isActive(path: string) {
+  return route.path === path;
+}
 
 function handleLogout() {
   auth.clearSession();
@@ -13,18 +21,51 @@ function handleLogout() {
 
 <template>
   <header class="app-header">
-    <div class="brand">
-      <h1>SmartClinic</h1>
+    <div class="left">
+      <div
+        class="brand"
+        @click="router.push('/schedule')"
+        role="button"
+        tabindex="0"
+      >
+        SmartClinic
+      </div>
+
+      <nav class="nav">
+        <router-link
+          to="/schedule"
+          class="nav-link"
+          :class="{ active: isActive('/schedule') }"
+        >
+          Schedule
+        </router-link>
+
+        <router-link
+          to="/my-appointments"
+          class="nav-link"
+          :class="{ active: isActive('/my-appointments') }"
+        >
+          My Appointments
+        </router-link>
+
+        <router-link
+          v-if="isAdminish"
+          to="/admin"
+          class="nav-link"
+          :class="{ active: isActive('/admin') }"
+        >
+          Admin
+        </router-link>
+      </nav>
     </div>
 
-    <div class="user-area" v-if="auth.user">
-      <span class="user-name">
-        {{ auth.user.name }}
+    <div class="right">
+      <span class="user">
+        {{ auth.user?.name }}
+        <small v-if="auth.user?.role">({{ auth.user.role }})</small>
       </span>
 
-      <button class="logout-button" @click="handleLogout">
-        Logout
-      </button>
+      <button class="logout" @click="handleLogout">Logout</button>
     </div>
   </header>
 </template>
@@ -34,37 +75,70 @@ function handleLogout() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 0.9rem 1.5rem;
   background-color: #2c3e50;
   color: white;
 }
 
-.brand h1 {
-  margin: 0;
-  font-size: 1.3rem;
+.left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
 }
 
-.user-area {
+.brand {
+  font-size: 1.35rem;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  padding: 0.45rem 0.7rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 700;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.user-name {
-  font-weight: 500;
+.user {
+  font-weight: 700;
+  opacity: 0.95;
 }
 
-.logout-button {
-  padding: 0.5rem 0.9rem;
+.logout {
+  padding: 0.55rem 0.9rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   background-color: #c0392b;
   color: white;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
 }
 
-.logout-button:hover {
+.logout:hover {
   background-color: #a93226;
 }
 </style>
