@@ -7,10 +7,20 @@ const router = useRouter();
 const route = useRoute();
 const auth = useAuthStore();
 
+// Supondo roles: "PATIENT" | "SECRETARY" | "ADMIN"
+const role = computed(() => auth.user?.role ?? null);
+
 const isAdminish = computed(() => auth.isAdminish); // SECRETARY/ADMIN
+const isPatient = computed(() => role.value === "PATIENT");
 
 function isActive(path: string) {
   return route.path === path;
+}
+
+const homePath = computed(() => (isAdminish.value ? "/admin" : "/schedule"));
+
+function handleBrandClick() {
+  router.push(homePath.value);
 }
 
 function handleLogout() {
@@ -20,18 +30,15 @@ function handleLogout() {
 </script>
 
 <template>
-  <header class="app-header">
+  <header v-if="auth.isAuthenticated" class="app-header">
+    <!-- header contextualizado para usuários logados -->
     <div class="left">
-      <div
-        class="brand"
-        @click="router.push('/schedule')"
-        role="button"
-        tabindex="0"
-      >
+      <div class="brand" @click="handleBrandClick" role="button" tabindex="0">
         SmartClinic
       </div>
 
       <nav class="nav">
+        <!-- Para todo usuário logado -->
         <router-link
           to="/schedule"
           class="nav-link"
@@ -40,7 +47,9 @@ function handleLogout() {
           Schedule
         </router-link>
 
+        <!-- Só faz sentido para PATIENT -->
         <router-link
+          v-if="isPatient"
           to="/my-appointments"
           class="nav-link"
           :class="{ active: isActive('/my-appointments') }"
@@ -48,6 +57,7 @@ function handleLogout() {
           My Appointments
         </router-link>
 
+        <!-- SECRETARY/ADMIN -->
         <router-link
           v-if="isAdminish"
           to="/admin"
@@ -62,7 +72,7 @@ function handleLogout() {
     <div class="right">
       <span class="user">
         {{ auth.user?.name }}
-        <small v-if="auth.user?.role">({{ auth.user.role }})</small>
+        <small v-if="role">({{ role }})</small>
       </span>
 
       <button class="logout" @click="handleLogout">Logout</button>
@@ -71,6 +81,7 @@ function handleLogout() {
 </template>
 
 <style scoped>
+/* CSS Style */
 .app-header {
   display: flex;
   justify-content: space-between;
