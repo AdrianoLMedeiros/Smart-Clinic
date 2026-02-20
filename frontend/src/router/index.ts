@@ -3,6 +3,8 @@ import { useAuthStore } from "@/stores/auth";
 
 import LoginPage from "@/pages/LoginPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
+
+import AuthenticatedLayout from "@/layouts/AuthenticatedLayout.vue";
 import SchedulePage from "@/pages/SchedulePage.vue";
 import MyAppointmentsPage from "@/pages/MyAppointmentsPage.vue";
 import AdminAppointmentsPage from "@/pages/AdminAppointmentsPage.vue";
@@ -15,13 +17,22 @@ const router = createRouter({
     { path: "/login", component: LoginPage, meta: { guestOnly: true } },
     { path: "/register", component: RegisterPage, meta: { guestOnly: true } },
 
-    { path: "/schedule", component: SchedulePage, meta: { requiresAuth: true } },
-    { path: "/my-appointments", component: MyAppointmentsPage, meta: { requiresAuth: true } },
-
+    // Tudo que exige login fica aqui dentro
     {
-      path: "/admin",
-      component: AdminAppointmentsPage,
-      meta: { requiresAuth: true, requiresAdminish: true },
+      path: "/",
+      component: AuthenticatedLayout,
+      meta: { requiresAuth: true },
+      children: [
+        { path: "schedule", component: SchedulePage },
+        { path: "my-appointments", component: MyAppointmentsPage },
+
+        // admin/secretary
+        {
+          path: "admin",
+          component: AdminAppointmentsPage,
+          meta: { requiresAdminish: true },
+        },
+      ],
     },
   ],
 });
