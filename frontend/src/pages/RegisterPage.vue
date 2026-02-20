@@ -8,7 +8,7 @@ import { lookupCep } from "@/services/integrations";
 type CepAddress = {
   cep?: string;
   street?: string;
-  district?: string;
+  neighborhood?: string;
   city?: string;
   state?: string;
   complement?: string;
@@ -177,7 +177,7 @@ async function handleRegister() {
         <p v-else-if="cepError" class="error">{{ cepError }}</p>
         <div v-if="address" class="address-box">
           <p><strong>Street:</strong> {{ address.street || "-" }}</p>
-          <p><strong>District:</strong> {{ address.district || "-" }}</p>
+          <p><strong>District:</strong> {{ address.neighborhood || "-" }}</p>
           <p><strong>City/State:</strong> {{ address.city || "-" }} / {{ address.state || "-" }}</p>
         </div>
       </div>
