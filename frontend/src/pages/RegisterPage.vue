@@ -173,7 +173,7 @@ async function handleRegister() {
 
         <p v-if="cepLoading" class="hint">Looking up CEP...</p>
         <p v-else-if="cepError" class="error">{{ cepError }}</p>
-
+        <!-- VERIFICAR CARGA DOS DADOS DO ENDEREÇO NÂO ESTÁ OCORRENDO  -->
         <div v-if="address" class="address-box">
           <p><strong>Street:</strong> {{ address.logradouro || "-" }}</p>
           <p><strong>District:</strong> {{ address.bairro || "-" }}</p>
