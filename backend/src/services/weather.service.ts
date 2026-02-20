@@ -64,7 +64,7 @@ export async function getRainAlertForDate(input: {
   const probability = typeof prob === "number" ? prob : 0;
   const precipitationMm = typeof sum === "number" ? sum : 0;
 
-  const rainAlert = probability >= 50 || precipitationMm > 1.0;
+  const rainAlert = probability >= 50 || precipitationMm > 0;
 
   const summary = `Rain chance: ${probability}% | Expected precipitation: ${precipitationMm} mm`;
 
