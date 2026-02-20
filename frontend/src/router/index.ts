@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
+import GuestLayout from "@/layouts/GuestLayout.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 
@@ -14,19 +15,25 @@ const router = createRouter({
   routes: [
     { path: "/", redirect: "/schedule" },
 
-    { path: "/login", component: LoginPage, meta: { guestOnly: true } },
-    { path: "/register", component: RegisterPage, meta: { guestOnly: true } },
+    // 👤 Guest area (sem header)
+    {
+      path: "/",
+      component: GuestLayout,
+      meta: { guestOnly: true },
+      children: [
+        { path: "login", component: LoginPage },
+        { path: "register", component: RegisterPage },
+      ],
+    },
 
-    // Tudo que exige login fica aqui dentro
+    // Auth area (com header)
     {
       path: "/",
       component: AuthenticatedLayout,
       meta: { requiresAuth: true },
-      children: [
-        { path: "schedule", component: SchedulePage },
+        children: [
+          { path: "schedule", component: SchedulePage },
         { path: "my-appointments", component: MyAppointmentsPage },
-
-        // admin/secretary
         {
           path: "admin",
           component: AdminAppointmentsPage,

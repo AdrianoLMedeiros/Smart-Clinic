@@ -4,7 +4,7 @@ This project is deployed using Render and MongoDB Atlas.
 
 ---
 
-## 1️⃣ Push to GitHub
+## 1. Push to GitHub
 
 Ensure:
 
@@ -14,7 +14,7 @@ Ensure:
 
 ---
 
-## 2️⃣ Create Web Service on Render
+## 2. Create Web Service on Render
 
 1. Go to https://render.com
 2. Create new Web Service
@@ -41,7 +41,7 @@ npm start
 
 ---
 
-## 3️⃣ Environment Variables on Render
+## 3. Environment Variables on Render
 
 Add:
 
@@ -53,7 +53,7 @@ Render automatically sets `PORT`.
 
 ---
 
-## 4️⃣ MongoDB Atlas Configuration
+## 4. MongoDB Atlas Configuration
 
 In Atlas:
 
@@ -69,7 +69,7 @@ Add IP:
 
 ---
 
-## 5️⃣ Validate Deployment
+## 5. Validate Deployment
 
 Test:
 
@@ -87,7 +87,7 @@ https://smart-clinic-pv7c.onrender.com
 
 ---
 
-## 6️⃣ Common Deployment Errors
+## 6. Common Deployment Errors
 
 ### 502 Bad Gateway
 

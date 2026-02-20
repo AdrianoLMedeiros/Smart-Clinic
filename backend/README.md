@@ -6,7 +6,7 @@ This backend provides authentication, appointment management, address lookup via
 
 ---
 
-## 🚀 Overview
+## 1. Overview
 
 Smart Clinic enables small clinics to:
 
@@ -19,7 +19,7 @@ Smart Clinic enables small clinics to:
 
 ---
 
-## 🧱 Tech Stack
+## 2. Tech Stack
 
 - Node.js
 - Express
@@ -34,7 +34,7 @@ Smart Clinic enables small clinics to:
 
 ---
 
-## 👥 User Roles
+## 3. User Roles
 
 ### PATIENT
 
@@ -55,7 +55,7 @@ Smart Clinic enables small clinics to:
 
 ---
 
-## 📦 Project Structure
+## 4. Project Structure
 
 ```
 backend/
@@ -82,9 +82,9 @@ backend/
 
 ---
 
-## ⚙️ Local Setup
+## 5. Local Setup
 
-### 1️⃣ Install dependencies
+### 5.1. Install dependencies
 
 ```bash
 cd backend
@@ -93,7 +93,7 @@ npm install
 
 ---
 
-### 2️⃣ Environment Variables
+### 5.2. Environment Variables
 
 Create a `.env` file inside `backend/`:
 
@@ -104,11 +104,11 @@ JWT_SECRET=your_secret_here
 JWT_EXPIRES_IN=1d
 ```
 
-⚠️ Do not commit `.env` files.
+ALERT: Do not commit `.env` files.
 
 ---
 
-### 3️⃣ Run in development mode
+### 5.3. Run in development mode
 
 ```bash
 npm run dev
@@ -122,7 +122,7 @@ http://localhost:3000
 
 ---
 
-## 🧪 Running Tests (Isolated Database)
+## 6. Running Tests (Isolated Database)
 
 This project uses a separate MongoDB database for testing.
 
@@ -144,7 +144,7 @@ The test database is automatically cleared between test runs.
 
 ---
 
-## 🏗 Build for Production
+## 7. Build for Production
 
 ```bash
 npm run build
@@ -155,7 +155,7 @@ This compiles TypeScript into JavaScript (`dist/` folder) and runs the compiled 
 
 ---
 
-## 🔐 Security Considerations
+## 8. Security Considerations
 
 - Passwords are hashed with bcrypt.
 - JWT is required for protected routes.
@@ -165,7 +165,7 @@ This compiles TypeScript into JavaScript (`dist/` folder) and runs the compiled 
 
 ---
 
-## 🌐 Live Deployment
+## 9. Live Deployment
 
 Production backend:
 
@@ -181,7 +181,7 @@ GET /health
 
 ---
 
-## 📚 API Documentation
+## 10. API Documentation
 
 See:
 
@@ -191,6 +191,6 @@ docs/API.md
 
 ---
 
-## 📄 License
+## 11. License
 
 Educational project. Intended for academic and portfolio use.
