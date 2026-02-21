@@ -4,8 +4,6 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { login } from "@/services/auth";
 
-import bgUrl from "@/assets/login-bg.png";
-
 const router = useRouter();
 const auth = useAuthStore();
 
@@ -42,13 +40,10 @@ async function handleLogin() {
 </script>
 
 <template>
-  <!-- Fundo da página -->
-  <div class="page" :style="{ backgroundImage: `url(${bgUrl})` }">
-    <!-- Overlay para contraste -->
-    <div class="overlay" />
-
-    <!-- Card -->
-    <div class="card" role="region" aria-label="Login">
+  <!-- WRAPPER FULLSCREEN -->
+  <div class="login-page">
+    <!-- CARD -->
+    <div class="login-card">
       <h2 class="title">Login</h2>
 
       <form @submit.prevent="handleLogin" class="form">
@@ -90,41 +85,46 @@ async function handleLogin() {
 </template>
 
 <style scoped>
-/* Página inteira com background */
-.page {
+/* FULLSCREEN BACKGROUND */
+.login-page {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
+  width: 100%;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+  position: relative;
+
+  background-image: url("@/assets/login-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
-  position: relative;
-  overflow: hidden;
 }
 
-/* Overlay para legibilidade do card */
-.overlay {
+/* OVERLAY (pra dar contraste no card) */
+.login-page::before {
+  content: "";
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(2px);
 }
 
-/* Card central */
-.card {
-  position: relative; /* acima do overlay */
+/* CARD POR CIMA DO OVERLAY */
+.login-card {
+  position: relative;
   z-index: 1;
 
   width: min(420px, 100%);
   padding: 24px;
-  border-radius: 16px;
 
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .title {
