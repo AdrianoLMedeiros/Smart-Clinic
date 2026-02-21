@@ -21,3 +21,8 @@ export async function myAppointments() {
   const { data } = await api.get("/appointments/me");
   return data;
 }
+
+export async function cancelMyAppointment(id: string) {
+  const { data } = await api.patch(`/appointments/${id}/cancel`);
+  return data?.appointment ?? data;
+}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { myAppointments } from "@/services/appointments";
+import { myAppointments, cancelMyAppointment } from "@/services/appointments";
 
 type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELED";
 
@@ -18,6 +18,7 @@ type Appointment = {
 };
 
 const loading = ref(false);
+const cancelingId = ref<string | null>(null);
 const errorMessage = ref("");
 const items = ref<Appointment[]>([]);
 
@@ -28,6 +29,21 @@ function formatISODate(dateStr: string) {
   return dateStr;
 }
 
+function canCancel(a: Appointment) {
+  if (a.status === "CANCELED") return false;
+
+  // Regra opcional: impedir cancelamento no passado
+  // (se você não quiser isso no front, pode remover sem problemas)
+  const when = new Date(`${a.date}T${a.time}:00`);
+  if (when < new Date()) return false;
+
+  return true;
+}
+
+function extractErrorMessage(e: any, fallback: string) {
+  return e?.response?.data?.message || e?.message || fallback;
+}
+
 async function load() {
   errorMessage.value = "";
   try {
@@ -35,9 +51,41 @@ async function load() {
     const data = await myAppointments();
     items.value = Array.isArray(data?.appointments) ? data.appointments : [];
   } catch (e: any) {
-    errorMessage.value = e?.message || "Could not load your appointments.";
+    errorMessage.value = extractErrorMessage(
+      e,
+      "Could not load your appointments.",
+    );
   } finally {
     loading.value = false;
+  }
+}
+
+async function cancelAppointment(a: Appointment) {
+  if (!canCancel(a)) return;
+
+  const ok = confirm(
+    `Cancel the appointment on ${formatISODate(a.date)} at ${a.time}?`,
+  );
+  if (!ok) return;
+
+  errorMessage.value = "";
+  cancelingId.value = a._id;
+
+  try {
+    const updated = await cancelMyAppointment(a._id);
+
+    // Atualiza local (sem refetch) — sem índice, TS-friendly
+    const item = items.value.find((x) => x._id === a._id);
+    if (!item) return;
+
+    item.status = (updated?.status ?? "CANCELED") as AppointmentStatus;
+  } catch (e: any) {
+    errorMessage.value = extractErrorMessage(
+      e,
+      "Could not cancel appointment.",
+    );
+  } finally {
+    cancelingId.value = null;
   }
 }
 
@@ -57,7 +105,9 @@ onMounted(load);
           {{ loading ? "Refreshing..." : "Refresh" }}
         </button>
 
-        <router-link class="btn primary" to="/schedule">New appointment</router-link>
+        <router-link class="btn primary" to="/schedule"
+          >New appointment</router-link
+        >
       </div>
 
       <p v-if="errorMessage" class="msg error">{{ errorMessage }}</p>
@@ -99,6 +149,15 @@ onMounted(load);
 
           <div class="right">
             <small class="muted">ID: {{ a._id }}</small>
+            <button
+              v-if="canCancel(a)"
+              class="btn cancel"
+              type="button"
+              :disabled="cancelingId === a._id"
+              @click="cancelAppointment(a)"
+            >
+              {{ cancelingId === a._id ? "Cancelling..." : "Cancel" }}
+            </button>
           </div>
         </article>
       </div>
@@ -156,6 +215,14 @@ onMounted(load);
   background: #1f6feb;
 }
 
+.btn.cancel {
+  background: #c0392b;
+}
+
+.btn.cancel:hover {
+  background: #a93226;
+}
+
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -193,6 +260,7 @@ onMounted(load);
   border: 1px solid #eef1f5;
   border-radius: 12px;
   background: #fafbfc;
+  align-items: stretch; /* 🔥 importante */
 }
 
 .line {
@@ -256,6 +324,9 @@ onMounted(load);
 
 .right {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between; /* 🔥 empurra topo e fundo */
+  align-items: flex-end;
+  min-height: 100%;
 }
 </style>
