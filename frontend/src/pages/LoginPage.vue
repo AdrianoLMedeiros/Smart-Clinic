@@ -40,93 +40,51 @@ async function handleLogin() {
 </script>
 
 <template>
-  <!-- WRAPPER FULLSCREEN -->
-  <div class="login-page">
-    <!-- CARD -->
-    <div class="login-card">
-      <h2 class="title">Login</h2>
+  <div>
+    <h2 class="title">Login</h2>
 
-      <form @submit.prevent="handleLogin" class="form">
-        <div class="form-group">
-          <label>Email</label>
-          <input
-            v-model="email"
-            type="email"
-            placeholder="Enter your email"
-            :disabled="loading"
-            autocomplete="email"
-          />
-        </div>
+    <form @submit.prevent="handleLogin" class="form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          placeholder="Enter your email"
+          :disabled="loading"
+          autocomplete="email"
+        />
+      </div>
 
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            v-model="password"
-            type="password"
-            placeholder="Enter your password"
-            :disabled="loading"
-            autocomplete="current-password"
-          />
-        </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          v-model="password"
+          type="password"
+          placeholder="Enter your password"
+          :disabled="loading"
+          autocomplete="current-password"
+        />
+      </div>
 
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-
-        <button type="submit" :disabled="loading">
-          {{ loading ? "Logging in..." : "Login" }}
-        </button>
-      </form>
-
-      <p class="link">
-        Don't have an account?
-        <router-link to="/register">Register here</router-link>
+      <p v-if="errorMessage" class="error" role="alert">
+        {{ errorMessage }}
       </p>
-    </div>
+
+      <button type="submit" :disabled="loading">
+        {{ loading ? "Logging in..." : "Login" }}
+      </button>
+    </form>
+
+    <p class="link">
+      Don't have an account?
+      <router-link to="/register">Register here</router-link>
+    </p>
   </div>
 </template>
 
 <style scoped>
-/* FULLSCREEN BACKGROUND */
-.login-page {
-  min-height: 100vh;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 24px;
-  position: relative;
-
-  background-image: url("@/assets/login-bg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* OVERLAY (pra dar contraste no card) */
-.login-page::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-}
-
-/* CARD POR CIMA DO OVERLAY */
-.login-card {
-  position: relative;
-  z-index: 1;
-
-  width: min(420px, 100%);
-  padding: 24px;
-
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(6px);
-
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
 .title {
   margin: 0 0 1rem;
   text-align: center;
@@ -144,6 +102,11 @@ async function handleLogin() {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+}
+
+label {
+  font-size: 0.92rem;
+  color: #374151;
 }
 
 input {

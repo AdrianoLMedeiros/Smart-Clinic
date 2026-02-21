@@ -15,10 +15,13 @@ import AppHeader from "@/components/AppHeader.vue";
 <style scoped>
 .layout {
   min-height: 100vh;
-  background: #f4f6f9;
+  background: linear-gradient(180deg, #eef4fb 0%, #f7f9fc 100%);
 }
 
 .content {
   padding: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 </style>
