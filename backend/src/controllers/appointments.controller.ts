@@ -67,7 +67,7 @@ export async function mine(req: AuthenticatedRequest, res: Response) {
   return res.json({ appointments });
 }
 
-// ✅ NOVO: PATIENT cancela o próprio appointment (rota segregada)
+// NOVO: PATIENT cancela o próprio appointment (rota segregada)
 export async function cancelMine(
   req: AuthenticatedRequest & { params: { id: string } },
   res: Response

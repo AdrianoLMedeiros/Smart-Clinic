@@ -6,7 +6,7 @@ import {
   cancelMine, // novo
 } from "../controllers/appointments.controller";
 import { requireAuth } from "../middlewares/requireAuth";
-import { requireRole } from "../middlewares/requireRole"; // ✅ novo
+import { requireRole } from "../middlewares/requireRole"; // novo
 
 export const appointmentsRoutes = Router();
 

@@ -22,7 +22,7 @@ const router = createRouter({
     // Home contextual
     { path: "/", redirect: () => homeByRole(useAuthStore()) },
 
-    // 👤 Guest area (sem header)
+    // Guest area (sem header)
     {
       path: "/",
       component: GuestLayout,
@@ -41,14 +41,14 @@ const router = createRouter({
       children: [
         { path: "schedule", component: SchedulePage },
 
-        // ✅ só PATIENT
+        // só PATIENT
         {
           path: "my-appointments",
           component: MyAppointmentsPage,
           meta: { roles: ["PATIENT"] as Role[] },
         },
 
-        // ✅ SECRETARY/ADMIN
+        // SECRETARY/ADMIN
         {
           path: "admin",
           component: AdminAppointmentsPage,

@@ -25,7 +25,7 @@ const AppointmentSchema = new Schema<IAppointment>(
   { timestamps: true }
 );
 
-// 🔥 Regra de conflito do MVP: não pode repetir date+time
+// Regra de conflito do MVP: não pode repetir date+time
 AppointmentSchema.index({ date: 1, time: 1 }, { unique: true });
 
 export const Appointment = model<IAppointment>("Appointment", AppointmentSchema);

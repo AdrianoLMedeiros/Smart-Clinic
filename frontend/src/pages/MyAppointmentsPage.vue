@@ -260,7 +260,7 @@ onMounted(load);
   border: 1px solid #eef1f5;
   border-radius: 12px;
   background: #fafbfc;
-  align-items: stretch; /* 🔥 importante */
+  align-items: stretch; /* importante */
 }
 
 .line {
@@ -325,7 +325,7 @@ onMounted(load);
 .right {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* 🔥 empurra topo e fundo */
+  justify-content: space-between; /* empurra topo e fundo */
   align-items: flex-end;
   min-height: 100%;
 }

@@ -4,6 +4,8 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { login } from "@/services/auth";
 
+import bgUrl from "@/assets/login-bg.png";
+
 const router = useRouter();
 const auth = useAuthStore();
 
@@ -40,35 +42,91 @@ async function handleLogin() {
 </script>
 
 <template>
-  <div>
-    <h2 class="title">Login</h2>
+  <!-- Fundo da página -->
+  <div class="page" :style="{ backgroundImage: `url(${bgUrl})` }">
+    <!-- Overlay para contraste -->
+    <div class="overlay" />
 
-    <form @submit.prevent="handleLogin" class="form">
-      <div class="form-group">
-        <label>Email</label>
-        <input v-model="email" type="email" placeholder="Enter your email" :disabled="loading" />
-      </div>
+    <!-- Card -->
+    <div class="card" role="region" aria-label="Login">
+      <h2 class="title">Login</h2>
 
-      <div class="form-group">
-        <label>Password</label>
-        <input v-model="password" type="password" placeholder="Enter your password" :disabled="loading" />
-      </div>
+      <form @submit.prevent="handleLogin" class="form">
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            v-model="email"
+            type="email"
+            placeholder="Enter your email"
+            :disabled="loading"
+            autocomplete="email"
+          />
+        </div>
 
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            v-model="password"
+            type="password"
+            placeholder="Enter your password"
+            :disabled="loading"
+            autocomplete="current-password"
+          />
+        </div>
 
-      <button type="submit" :disabled="loading">
-        {{ loading ? "Logging in..." : "Login" }}
-      </button>
-    </form>
+        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
 
-    <p class="link">
-      Don't have an account?
-      <router-link to="/register">Register here</router-link>
-    </p>
+        <button type="submit" :disabled="loading">
+          {{ loading ? "Logging in..." : "Login" }}
+        </button>
+      </form>
+
+      <p class="link">
+        Don't have an account?
+        <router-link to="/register">Register here</router-link>
+      </p>
+    </div>
   </div>
 </template>
 
 <style scoped>
+/* Página inteira com background */
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay para legibilidade do card */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+/* Card central */
+.card {
+  position: relative; /* acima do overlay */
+  z-index: 1;
+
+  width: min(420px, 100%);
+  padding: 24px;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
 .title {
   margin: 0 0 1rem;
   text-align: center;

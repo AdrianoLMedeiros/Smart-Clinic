@@ -7,7 +7,7 @@ const router = useRouter();
 const route = useRoute();
 const auth = useAuthStore();
 
-// Supondo roles: "PATIENT" | "SECRETARY" | "ADMIN"
+// roles: "PATIENT" | "SECRETARY" | "ADMIN"
 const role = computed(() => auth.user?.role ?? null);
 
 const isAdminish = computed(() => auth.isAdminish); // SECRETARY/ADMIN
