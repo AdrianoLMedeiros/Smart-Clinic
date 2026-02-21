@@ -1,25 +1,25 @@
 # Smart Clinic Backend
 
-Backend API for Smart Clinic — a medical appointment scheduling system built with Node.js, Express and TypeScript.
+Backend API para Smart Clinic — um sistema de agendamento de consultas médicas construído com Node.js, Express e TypeScript.
 
-This backend provides authentication, appointment management, address lookup via CEP (Brazil Only), weather integration and role-based access control.
-
----
-
-## 1. Overview
-
-Smart Clinic enables small clinics to:
-
-- Register and authenticate users securely (JWT)
-- Support role-based access control (PATIENT, SECRETARY, ADMIN)
-- Schedule appointments with time-slot conflict validation
-- Automatically populate address from CEP (ViaCEP API)
-- Generate rain alerts based on weather forecast (Open-Meteo API)
-- Provide an administrative panel for appointment management
+Este backend fornece autenticação, gerenciamento de consultas, preenchimento de endereço via CEP (apenas Brasil), integração com previsão do tempo e controle de acesso baseado em papéis.
 
 ---
 
-## 2. Tech Stack
+## 1. Visão Geral
+
+O Smart Clinic permite que pequenas clínicas:
+
+- Cadastrem e autentiquem usuários de forma segura (JWT)
+- Suportem controle de acesso baseado em papéis (PATIENT, SECRETARY, ADMIN)
+- Agendem consultas com validação de conflitos de horários
+- Populem automaticamente o endereço a partir do CEP (API ViaCEP)
+- Gerem alertas de chuva com base na previsão do tempo (API Open-Meteo)
+- Forneçam um painel administrativo para gerenciamento de consultas
+
+---
+
+## 2. Stack Tecnológica
 
 - Node.js
 - Express
@@ -27,36 +27,36 @@ Smart Clinic enables small clinics to:
 - MongoDB Atlas
 - Mongoose
 - JWT (JSON Web Tokens)
-- Zod (validation)
-- Axios (external API calls)
-- Jest + Supertest (integration testing)
-- Render (deployment)
+- Zod (validação)
+- Axios (chamadas a APIs externas)
+- Jest + Supertest (testes de integração)
+- Render (deploy)
 
 ---
 
-## 3. User Roles
+## 3. Papéis de Usuário
 
 ### PATIENT
 
-- Register and login
-- Create appointments
-- View their own appointments
-- Cancel their own appointments
+- Registrar e fazer login
+- Criar consultas
+- Visualizar suas próprias consultas
+- Cancelar suas próprias consultas
 
 ### SECRETARY
 
-- View all appointments
-- Filter by date or status
-- Confirm or cancel appointments
+- Visualizar todas as consultas
+- Filtrar por data ou status
+- Confirmar ou cancelar consultas
 
-### ADMIN (optional / extensibility)
+### ADMIN (opcional / extensível)
 
-- Same permissions as SECRETARY
-- Reserved for future system-level controls
+- Mesmas permissões que SECRETARY
+- Reservado para controles de nível de sistema no futuro
 
 ---
 
-## 4. Project Structure
+## 4. Estrutura do Projeto
 
 ```
 backend/
@@ -83,9 +83,9 @@ backend/
 
 ---
 
-## 5. Local Setup
+## 5. Configuração Local
 
-### 5.1. Install dependencies
+### 5.1. Instalar dependências
 
 ```bash
 cd backend
@@ -94,9 +94,9 @@ npm install
 
 ---
 
-### 5.2. Environment Variables
+### 5.2. Variáveis de Ambiente
 
-Create a `.env` file inside `backend/`:
+Crie um arquivo `.env` dentro de `backend/`:
 
 ```env
 PORT=3000
@@ -105,17 +105,17 @@ JWT_SECRET=your_secret_here
 JWT_EXPIRES_IN=1d
 ```
 
-ALERT: Do not commit `.env` files.
+ATENÇÃO: Não comite arquivos `.env`.
 
 ---
 
-### 5.3. Run in development mode
+### 5.3. Executar em modo de desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-Server will run at:
+O servidor será executado em:
 
 ```
 http://localhost:3000
@@ -123,11 +123,11 @@ http://localhost:3000
 
 ---
 
-## 6. Running Tests (Isolated Database)
+## 6. Executando Testes (Base de Dados Isolada)
 
-This project uses a separate MongoDB database for testing.
+Este projeto usa um banco de dados MongoDB separado para testes.
 
-Create `.env.test`:
+Crie `.env.test`:
 
 ```env
 MONGODB_URI_TEST=mongodb+srv://<user>:<password>@<cluster>/<test-database>?retryWrites=true&w=majority
@@ -135,40 +135,40 @@ JWT_SECRET=test_secret
 JWT_EXPIRES_IN=1d
 ```
 
-Run tests:
+Executar testes:
 
 ```bash
 npm test
 ```
 
-The test database is automatically cleared between test runs.
+O banco de dados de teste é automaticamente limpo entre as execuções dos testes.
 
 ---
 
-## 7. Build for Production
+## 7. Build para Produção
 
 ```bash
 npm run build
 npm start
 ```
 
-This compiles TypeScript into JavaScript (`dist/` folder) and runs the compiled server.
+Isto compila o TypeScript em JavaScript (pasta `dist/`) e executa o servidor compilado.
 
 ---
 
-## 8. Security Considerations
+## 8. Considerações de Segurança
 
-- Passwords are hashed with bcrypt.
-- JWT is required for protected routes.
-- Role-based access control enforced via middleware.
-- Registration forces default role to PATIENT (prevents privilege escalation).
-- Test database isolated from development and production.
+- Senhas são hasheadas com bcrypt.
+- JWT é requerido para rotas protegidas.
+- Controle de acesso baseado em papéis é aplicado via middleware.
+- O registro força o papel padrão para PATIENT (previne escalonamento de privilégios).
+- Banco de testes isolado do desenvolvimento e produção.
 
 ---
 
-## 9. Live Deployment
+## 9. Deploy Ao Vivo
 
-Production backend:
+Backend em produção:
 
 ```
 https://smart-clinic-pv7c.onrender.com
@@ -182,9 +182,9 @@ GET /health
 
 ---
 
-## 10. API Documentation
+## 10. Documentação da API
 
-See:
+Veja:
 
 ```
 docs/API.md
@@ -192,6 +192,6 @@ docs/API.md
 
 ---
 
-## 11. License
+## 11. Licença
 
-Educational project. Intended for academic and portfolio use.
+Projeto educacional. Destinado a uso acadêmico e portfólio.

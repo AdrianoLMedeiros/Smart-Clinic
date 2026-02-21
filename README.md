@@ -23,8 +23,8 @@ Implementar um sistema web completo com:
 ## Arquitetura do Projeto
 
 Este repositório está dividido em:
-/backend → API REST (Node.js + Express + TypeScript)
-/frontend → Interface Web (Vue.js 3 + Vite + TypeScript)
+backend → API REST (Node.js + Express + TypeScript)
+frontend → Interface Web (Vue.js 3 + Vite + TypeScript)
 
 Arquitetura backend em camadas:
 routes → controllers → services → repositories → models
@@ -96,6 +96,8 @@ routes → controllers → services → repositories → models
 Backend publicado em:
 
 https://smart-clinic-pv7c.onrender.com
+
+Frontend publicado em:
 
 Banco de dados hospedado no MongoDB Atlas.
 
