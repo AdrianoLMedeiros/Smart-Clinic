@@ -14,16 +14,22 @@ const allowedOrigins = [
   "https://smart-clinic-xi.vercel.app",
 ];
 
+// aceita também previews da Vercel do mesmo projeto
+const vercelPreviewRegex = /^https:\/\/smart-clinic-xi(-[a-z0-9-]+)?\.vercel\.app$/i;
+
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin) || vercelPreviewRegex.test(origin)) {
+        return callback(null, true);
       }
+
+      return callback(null, false); // melhor que lançar Error aqui
     },
-    credentials: true,
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
