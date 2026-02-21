@@ -38,8 +38,9 @@ function handleLogout() {
       </div>
 
       <nav class="nav">
-        <!-- Para todo usuário logado -->
+        <!-- PATIENT -->
         <router-link
+          v-if="isPatient"
           to="/schedule"
           class="nav-link"
           :class="{ active: isActive('/schedule') }"
@@ -47,7 +48,6 @@ function handleLogout() {
           Schedule
         </router-link>
 
-        <!-- Só faz sentido para PATIENT -->
         <router-link
           v-if="isPatient"
           to="/my-appointments"

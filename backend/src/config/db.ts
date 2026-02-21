@@ -10,7 +10,6 @@ export async function connectDb(uri?: string) {
   if (mongoose.connection.readyState === 1) return;
 
   await mongoose.connect(finalUri);
-  console.log("[db] connected");
 }
 
 export async function disconnectDb() {

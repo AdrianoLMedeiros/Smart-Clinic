@@ -2,50 +2,70 @@ import { api } from "./api";
 
 export type AppointmentStatus = "PENDING" | "CONFIRMED" | "CANCELED";
 
+export type Address = {
+  street: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+};
+
+export type AdminPatient = {
+  _id: string;
+  name: string;
+  email?: string;
+  cep?: string;
+  address?: Address;
+};
+
 export type AdminAppointment = {
   _id: string;
-  patientId: {
-    _id: string;
-    name: string;
-    email?: string;
-    cep?: string;
-    address?: any; // depois tipamos melhor.
-  };
-  date: string;
-  time: string;
+  patientId?: AdminPatient | null; // refletindo a realidade (pode vir vazio se populate falhar)
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
   status: AppointmentStatus;
   rainAlert: boolean;
   weatherSummary?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string; // ISO
+  updatedAt: string; // ISO
 };
 
 // Contrato do backend
 const LIST_ALL_ENDPOINT = "/admin/appointments";
 const UPDATE_STATUS_ENDPOINT = (id: string) => `/admin/appointments/${id}/status`;
 
+type ListAllResponse =
+  | AdminAppointment[]
+  | { appointments: AdminAppointment[] }
+  | { data: AdminAppointment[] };
+
 export async function listAllAppointments(params?: {
   date?: string;
   status?: AppointmentStatus | "ALL";
 }) {
-  // Backend ainda não filtra por query, isso não atrapalha.
-  const query: any = {};
+  const query: Record<string, string> = {};
+
   if (params?.date) query.date = params.date;
   if (params?.status && params.status !== "ALL") query.status = params.status;
 
-  const { data } = await api.get(LIST_ALL_ENDPOINT, { params: query });
+  const { data } = await api.get<ListAllResponse>(LIST_ALL_ENDPOINT, {
+    params: query,
+  });
 
-  // Normaliza formatos comuns
-  if (Array.isArray(data)) return data as AdminAppointment[];
-  if (Array.isArray(data?.appointments)) return data.appointments as AdminAppointment[];
-  if (Array.isArray(data?.data)) return data.data as AdminAppointment[];
+  if (Array.isArray(data)) return data;
+  if ("appointments" in data && Array.isArray(data.appointments)) return data.appointments;
+  if ("data" in data && Array.isArray(data.data)) return data.data;
 
   return [] as AdminAppointment[];
 }
 
 export async function updateAppointmentStatus(id: string, status: AppointmentStatus) {
-  const { data } = await api.patch(UPDATE_STATUS_ENDPOINT(id), { status });
+  const { data } = await api.patch<{ appointment?: AdminAppointment } | AdminAppointment>(
+    UPDATE_STATUS_ENDPOINT(id),
+    { status }
+  );
 
-  if (data?.appointment) return data.appointment as AdminAppointment;
+  if (typeof data === "object" && data && "appointment" in data && data.appointment) {
+    return data.appointment;
+  }
   return data as AdminAppointment;
 }

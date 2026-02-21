@@ -28,8 +28,8 @@ const router = createRouter({
       component: GuestLayout,
       meta: { guestOnly: true },
       children: [
-        { path: "login", component: LoginPage },
-        { path: "register", component: RegisterPage },
+        { path: "login", name: "login", component: LoginPage },
+        { path: "register", name: "register", component: RegisterPage },
       ],
     },
 
@@ -39,11 +39,18 @@ const router = createRouter({
       component: AuthenticatedLayout,
       meta: { requiresAuth: true },
       children: [
-        { path: "schedule", component: SchedulePage },
+        // só PATIENT (admin/secretary NÃO agenda)
+        {
+          path: "schedule",
+          name: "schedule",
+          component: SchedulePage,
+          meta: { roles: ["PATIENT"] as Role[] },
+        },
 
         // só PATIENT
         {
           path: "my-appointments",
+          name: "my-appointments",
           component: MyAppointmentsPage,
           meta: { roles: ["PATIENT"] as Role[] },
         },
@@ -51,13 +58,14 @@ const router = createRouter({
         // SECRETARY/ADMIN
         {
           path: "admin",
+          name: "admin",
           component: AdminAppointmentsPage,
           meta: { roles: ["SECRETARY", "ADMIN"] as Role[] },
         },
       ],
     },
 
-    // fallback opcional
+    // fallback
     { path: "/:pathMatch(.*)*", redirect: "/" },
   ],
 });
@@ -70,14 +78,19 @@ router.beforeEach((to) => {
   const roles = (to.meta.roles as Role[] | undefined) ?? null;
 
   // 1) Auth required
-  if (requiresAuth && !auth.isAuthenticated) return "/login";
+  if (requiresAuth && !auth.isAuthenticated) {
+    return { name: "login" };
+  }
 
   // 2) Guest-only
-  if (guestOnly && auth.isAuthenticated) return homeByRole(auth);
+  if (guestOnly && auth.isAuthenticated) {
+    return homeByRole(auth);
+  }
 
   // 3) Role-based authorization
   if (roles) {
     const userRole = auth.role as Role | undefined;
+
     if (!userRole || !roles.includes(userRole)) {
       return homeByRole(auth);
     }

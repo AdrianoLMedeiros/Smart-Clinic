@@ -29,7 +29,10 @@ async function handleLogin() {
     });
 
     auth.setSession(response.token, response.user);
-    router.push("/schedule");
+    const role = response.user.role;
+
+    if (role === "PATIENT") router.push("/schedule");
+    else router.push("/admin/appointments");
   } catch (error: any) {
     errorMessage.value =
       error?.message || "Invalid credentials. Please try again.";

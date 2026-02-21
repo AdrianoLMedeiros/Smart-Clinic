@@ -17,23 +17,28 @@ const filterStatus = ref<AppointmentStatus | "ALL">("ALL");
 const hasItems = computed(() => items.value.length > 0);
 
 function formatISODate(dateStr: string) {
-  // depois a gente faz pt-BR
-  return dateStr;
+  if (!dateStr || !dateStr.includes("-")) return dateStr;
+  const [y, m, d] = dateStr.split("-");
+  return `${d}/${m}/${y}`;
 }
 
 async function load() {
   errorMessage.value = "";
   infoMessage.value = "";
+
   try {
     loading.value = true;
+
     const data = await listAllAppointments({
       date: filterDate.value || undefined,
-      status: filterStatus.value,
+      status: filterStatus.value === "ALL" ? undefined : filterStatus.value,
     });
+
     items.value = data;
 
-    if (items.value.length === 0)
+    if (items.value.length === 0) {
       infoMessage.value = "No appointments found for the current filters.";
+    }
   } catch (e: any) {
     const status = e?.response?.status;
     if (status === 401)
