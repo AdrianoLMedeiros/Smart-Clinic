@@ -61,3 +61,41 @@ export async function listMyAppointments(patientId: string) {
   return Appointment.find({ patientId })
     .sort({ date: 1, time: 1 });
 }
+
+export async function cancelAppointmentByPatient(
+  appointmentId: string,
+  patientId: string
+) {
+  // Buscar appointment
+  const appt = await Appointment.findById(appointmentId);
+
+  if (!appt) {
+    throw { statusCode: 404, message: "Appointment not found" };
+  }
+
+  // Verificar se pertence ao paciente
+  const ownerId = appt.patientId.toString();
+  if (ownerId !== patientId) {
+    throw { statusCode: 403, message: "Forbidden" };
+  }
+
+  // Idempotência (já cancelado)
+  if (appt.status === "CANCELED") {
+    return appt;
+  }
+
+  // (Opcional) impedir cancelamento no passado
+  const appointmentDateTime = new Date(`${appt.date}T${appt.time}:00`);
+  if (appointmentDateTime < new Date()) {
+    throw {
+      statusCode: 409,
+      message: "Cannot cancel past appointments",
+    };
+  }
+
+  //  Atualizar status
+  appt.status = "CANCELED";
+  await appt.save();
+
+  return appt;
+}

@@ -10,10 +10,17 @@ import SchedulePage from "@/pages/SchedulePage.vue";
 import MyAppointmentsPage from "@/pages/MyAppointmentsPage.vue";
 import AdminAppointmentsPage from "@/pages/AdminAppointmentsPage.vue";
 
+type Role = "PATIENT" | "SECRETARY" | "ADMIN";
+
+function homeByRole(auth: ReturnType<typeof useAuthStore>) {
+  return auth.isAdminish ? "/admin" : "/schedule";
+}
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: "/", redirect: "/schedule" },
+    // Home contextual
+    { path: "/", redirect: () => homeByRole(useAuthStore()) },
 
     // 👤 Guest area (sem header)
     {
@@ -31,25 +38,50 @@ const router = createRouter({
       path: "/",
       component: AuthenticatedLayout,
       meta: { requiresAuth: true },
-        children: [
-          { path: "schedule", component: SchedulePage },
-        { path: "my-appointments", component: MyAppointmentsPage },
+      children: [
+        { path: "schedule", component: SchedulePage },
+
+        // ✅ só PATIENT
+        {
+          path: "my-appointments",
+          component: MyAppointmentsPage,
+          meta: { roles: ["PATIENT"] as Role[] },
+        },
+
+        // ✅ SECRETARY/ADMIN
         {
           path: "admin",
           component: AdminAppointmentsPage,
-          meta: { requiresAdminish: true },
+          meta: { roles: ["SECRETARY", "ADMIN"] as Role[] },
         },
       ],
     },
+
+    // fallback opcional
+    { path: "/:pathMatch(.*)*", redirect: "/" },
   ],
 });
 
 router.beforeEach((to) => {
   const auth = useAuthStore();
 
-  if (to.meta.requiresAuth && !auth.isAuthenticated) return "/login";
-  if (to.meta.guestOnly && auth.isAuthenticated) return "/schedule";
-  if (to.meta.requiresAdminish && !auth.isAdminish) return "/schedule";
+  const requiresAuth = Boolean(to.meta.requiresAuth);
+  const guestOnly = Boolean(to.meta.guestOnly);
+  const roles = (to.meta.roles as Role[] | undefined) ?? null;
+
+  // 1) Auth required
+  if (requiresAuth && !auth.isAuthenticated) return "/login";
+
+  // 2) Guest-only
+  if (guestOnly && auth.isAuthenticated) return homeByRole(auth);
+
+  // 3) Role-based authorization
+  if (roles) {
+    const userRole = auth.role as Role | undefined;
+    if (!userRole || !roles.includes(userRole)) {
+      return homeByRole(auth);
+    }
+  }
 
   return true;
 });
