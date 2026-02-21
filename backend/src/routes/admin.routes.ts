@@ -7,7 +7,7 @@ import { requireRole } from "../middlewares/requireRole";
 
 export const adminRoutes = Router();
 
-adminRoutes.use(requireAuth, requireRole(["SECRETARY", "ADMIN"]));
+adminRoutes.use(requireAuth, requireRole("SECRETARY", "ADMIN"));
 
 adminRoutes.get("/appointments", listAll);
 adminRoutes.patch("/appointments/:id/status", changeStatus);
