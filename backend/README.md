@@ -41,6 +41,7 @@ Smart Clinic enables small clinics to:
 - Register and login
 - Create appointments
 - View their own appointments
+- Cancel their own appointments
 
 ### SECRETARY
 

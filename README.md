@@ -1,44 +1,144 @@
-# Smart Clinic — Scheduling System (Vue + Node)
+# Smart Clinic – Sistema de Atendimento Inteligente
 
-Smart Clinic is a web application designed for small medical clinics to manage appointment scheduling securely, with integrations for address lookup (ViaCEP) and weather forecast alerts (Open-Meteo).
+Aplicação web desenvolvida para informatização do processo de agendamento de consultas em clínicas médicas de pequeno porte.
 
-## Features
+Projeto desenvolvido como requisito da Avaliação 2 (AVA 2) da disciplina Desenvolvimento BackEnd I – Universidade Veiga de Almeida.
 
-- Secure authentication with JWT
-- Roles:
-  - **PATIENT**: can create and view their own appointments
-  - **SECRETARY**: can manage clinic appointments (list, confirm, cancel)
-  - **ADMIN** (optional): same access as secretary (kept for extensibility)
-- Appointment scheduling with time-slot validation and conflict prevention (HTTP 409)
-- Address auto-fill using **ViaCEP** by CEP
-- Weather integration to flag rain alerts for appointment day
-- Automated integration tests with isolated MongoDB test database
+---
 
-## Tech Stack
+## Objetivo
 
-- Backend: Node.js, Express, TypeScript, MongoDB Atlas, JWT
-- Frontend: Vue.js (to be added / in progress)
-- Hosting: Render (backend)
+Implementar um sistema web completo com:
 
-## Live Backend
+- Autenticação segura (JWT + hash de senha)
+- Controle de acesso por perfil (PATIENT / SECRETARY)
+- Agendamento com verificação de conflito de horário
+- Integração com API de CEP (ViaCEP)
+- Integração com API de clima (Open-Meteo)
+- Painel administrativo para gerenciamento de consultas
+- Deploy funcional em ambiente de produção
 
-Base URL:
+---
 
-- https://smart-clinic-pv7c.onrender.com
+## Arquitetura do Projeto
 
-Health check:
+Este repositório está dividido em:
+/backend → API REST (Node.js + Express + TypeScript)
+/frontend → Interface Web (Vue.js 3 + Vite + TypeScript)
 
-- `GET /health`
+Arquitetura backend em camadas:
+routes → controllers → services → repositories → models
 
-## Repository Structure
+---
 
-- `backend/` → API server and business logic
-- `backend/docs/API.md` → endpoints documentation
+## Tecnologias Utilizadas
 
-## Quick Start (Backend)
+### Backend
 
-See: `backend/README.md`
+- Node.js
+- Express
+- TypeScript
+- MongoDB Atlas
+- Mongoose
+- JWT (jsonwebtoken)
+- bcrypt
+- Zod
+- Axios
+- Jest + Supertest
+- Render (deploy)
 
-## License
+### Frontend
 
-Academic project / educational use.
+- Vue 3
+- Vite
+- TypeScript
+- Vue Router
+- Pinia
+- Axios
+
+---
+
+## Perfis de Usuário
+
+### PATIENT
+
+- Cadastro e login
+- Criação de agendamento
+- Visualização de seus agendamentos
+
+### SECRETARY
+
+- Visualização de todos os agendamentos
+- Filtro por data e status
+- Confirmação e cancelamento de consultas
+
+---
+
+## Integrações Externas
+
+- ViaCEP → Consulta automática de endereço via CEP
+- Open-Meteo → Verificação de previsão de chuva no dia da consulta
+
+---
+
+## Segurança
+
+- Senhas armazenadas com hash bcrypt
+- Autenticação baseada em JWT
+- Middleware de proteção de rotas
+- Validação de payloads com Zod
+- Controle de acesso por papel
+
+---
+
+## Deploy
+
+Backend publicado em:
+
+https://smart-clinic-pv7c.onrender.com
+
+Banco de dados hospedado no MongoDB Atlas.
+
+---
+
+## Como executar localmente
+
+### Backend
+
+- no terminal:
+  cd backend
+  npm install
+  npm run dev
+
+Criar arquivo .env com:
+PORT=
+MONGO_URI=
+JWT_SECRET=
+
+### Frontend
+
+- no terminal:
+  cd frontend
+  npm install
+  npm run dev
+
+## Testes
+
+- Executar no backend:
+  npm run test
+
+Testes automatizados cobrem:
+
+- Autenticação
+- Controle de acesso
+- Conflito de horário
+- Atualização de status
+
+## Referências Acadêmicas
+
+- ALVES, W. P. Projetos de sistemas web...
+- FREITAS, P. H. C. et al. Programação back end III...
+- OLIVEIRA, C. L. V.; ZANETTI, H. A. P. Javascript descomplicado...
+
+Desenvolvido por Adriano Medeiros
+Universidade Veiga de Almeida – 2026

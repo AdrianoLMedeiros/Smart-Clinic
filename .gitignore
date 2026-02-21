@@ -3,5 +3,7 @@
 .env.test
 db.md
 SmartClinic.mongodb.js
+userData.txt
 \insomnia_results
 \node_modules
+\.vscode
