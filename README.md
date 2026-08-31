@@ -16,7 +16,7 @@ Implementar um sistema web completo com:
 - Integração com API de CEP (ViaCEP)
 - Integração com API de clima (Open-Meteo)
 - Painel administrativo para gerenciamento de consultas
-- Deploy funcional em ambiente de produção
+- Estrutura de implantação de frontend e backend; disponibilidade atual descrita abaixo
 
 ---
 
@@ -91,50 +91,72 @@ routes → controllers → services → repositories → models
 
 ---
 
-## Deploy
+## Implantação e disponibilidade
 
-Backend publicado em:
+- [Frontend](https://smart-clinic-xi.vercel.app): respondeu HTTP 200 em 30/08/2026.
+- API informada anteriormente: `https://smart-clinic-pv7c.onrender.com`. A consulta a `/health` retornou HTTP 404 em 30/08/2026.
 
-https://smart-clinic-pv7c.onrender.com
-
-Frontend publicado em:
-
-Banco de dados hospedado no MongoDB Atlas.
-
----
+A resposta do frontend não comprova funcionamento integrado de autenticação, banco e agendamento. O endereço/serviço da API precisa ser revisado antes de anunciar uma demonstração completa. Não insira dados de pacientes reais.
 
 ## Como executar localmente
 
-### Backend
+Requisitos: Node.js 22, npm e MongoDB local ou instância de desenvolvimento autorizada.
 
-- no terminal:
-  cd backend
-  npm install
-  npm run dev
+Na pasta `backend`, crie `.env` (não versionar):
 
-Criar arquivo .env com:
-PORT=
-MONGO_URI=
-JWT_SECRET=
+```dotenv
+PORT=3000
+MONGODB_URI=mongodb://127.0.0.1:27017/smart_clinic_dev
+JWT_SECRET=SUBSTITUA_POR_UM_SEGREDO_ALEATORIO_FORTE
+JWT_EXPIRES_IN=1d
+```
 
-### Frontend
+O nome utilizado pelo código é **MONGODB_URI**, não `MONGO_URI`. Use um segredo próprio antes de iniciar.
 
-- no terminal:
-  cd frontend
-  npm install
-  npm run dev
+```sh
+cd backend
+npm ci
+npm run dev
+```
+
+Na pasta `frontend`, crie `.env.local`:
+
+```dotenv
+VITE_API_BASE_URL=http://localhost:3000
+```
+
+Em outro terminal:
+
+```sh
+cd frontend
+npm ci
+npm run dev
+```
+
+Abra `http://localhost:5173`, origem local prevista na configuração CORS. A URL da API é pública por definição; nunca coloque segredos em variáveis `VITE_`.
 
 ## Testes
 
-- Executar no backend:
-  npm run test
+Crie `backend/.env.test` com `MONGODB_URI_TEST` apontando para **um banco exclusivo de testes**, por exemplo `mongodb://127.0.0.1:27017/smart_clinic_test`, e um `JWT_SECRET` próprio de teste.
 
-Testes automatizados cobrem:
+**A suíte apaga documentos das coleções do banco informado. Nunca use banco de produção ou dados a preservar.**
 
-- Autenticação
-- Controle de acesso
-- Conflito de horário
-- Atualização de status
+Na pasta `backend`, execute `npm test`. Os testes existentes incluem autenticação, controle de acesso, conflito de horário e atualização de status. Não foram reexecutados nesta revisão documental.
+
+## Leitura de gestão e validação proposta
+
+Projeto acadêmico individual: evidencia tradução de requisitos em fluxos e integração técnica, não liderança de uma equipe de engenharia ou implantação clínica comprovada.
+
+| Necessidade | Entrega | Critério de aceite proposto |
+|---|---|---|
+| Organizar agenda | Cadastro de consultas | Usuário consegue concluir o agendamento válido. |
+| Evitar sobreposição | Verificação de conflito | Horários conflitantes são recusados no cenário definido. |
+| Delimitar responsabilidades | Perfis paciente e secretaria | Cada perfil acessa apenas operações e registros autorizados. |
+| Acompanhar atendimento | Alteração de status | Transições permitidas são verificadas com o usuário responsável. |
+
+Próximos passos: restabelecer/verificar a API, validar o fluxo ponta a ponta, registrar aceite e rever segurança e proteção de dados antes de qualquer uso real. Não há redução de faltas, economia ou ganho de produtividade medido publicado.
+
+---
 
 ## Referências Acadêmicas
 
